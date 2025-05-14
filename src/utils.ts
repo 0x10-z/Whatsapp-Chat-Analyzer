@@ -56,8 +56,13 @@ export const parseWhatsAppChat = (
     const hour = Number.parseInt(time.split(":")[0]);
     hourCounts[hour].count++;
 
-    // Saltar si es el grupo
-    if (name === groupName) {
+    // Saltar si es el grupo o tu mismo
+    const normalizedName = normalizeText(name);
+    if (
+      normalizedName === groupName.toLowerCase() ||
+      normalizedName === "tu" ||
+      normalizedName === "you"
+    ) {
       totalMessages++;
       continue;
     }
@@ -111,9 +116,14 @@ export const parseWhatsAppChat = (
         "y",
         "o",
         "a",
+        "pues",
         "de",
         "en",
         "que",
+        "todo",
+        "mucho",
+        "puede",
+        "tienes",
         "por",
         "con",
         "para",
