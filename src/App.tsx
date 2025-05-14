@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ChatAnalyzer from "@/components/chat-analyzer";
 import { useTranslation } from "@/hooks/use-translation";
 
@@ -13,19 +13,7 @@ const LANGUAGES: { code: LanguageCode; label: string; flag: string }[] = [
 
 export default function App() {
   const [language, setLanguage] = useState<LanguageCode>("es");
-  const [theme, setTheme] = useState<"light" | "dark">("light");
   const t = useTranslation(language);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme") as "light" | "dark" | null;
-    const system = window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-    const activeTheme = stored || system;
-    setTheme(activeTheme);
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(activeTheme);
-  }, []);
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-green-50 to-teal-100 dark:from-green-950 dark:to-teal-900 px-4 py-10 md:px-8 overflow-hidden">
