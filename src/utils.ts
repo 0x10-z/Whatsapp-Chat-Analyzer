@@ -1,6 +1,10 @@
 import type { ChatData, Participant } from "./components/chat-analyzer";
 
-// Modificar la función parseWhatsAppChat para excluir el grupo y mejorar detección multimedia
+export const extractEmojis = (text: string): string[] => {
+  const emojiRegex = /\p{Extended_Pictographic}/gu;
+  return [...text.matchAll(emojiRegex)].map((m) => m[0]);
+};
+
 export const parseWhatsAppChat = (
   chatText: string,
   groupName: string
@@ -29,6 +33,7 @@ export const parseWhatsAppChat = (
     .fill(0)
     .map((_, i) => ({ hour: i, count: 0 }));
   const wordFrequency = new Map<string, number>();
+  const emojiFrequency = new Map<string, number>();
 
   let totalMessages = 0;
   let startDate = "";
@@ -105,6 +110,11 @@ export const parseWhatsAppChat = (
       participant.wordCount += words.length;
       participant.characterCount += message.length;
 
+      const emojis = extractEmojis(message);
+      emojis.forEach((emoji) => {
+        emojiFrequency.set(emoji, (emojiFrequency.get(emoji) || 0) + 1);
+      });
+
       // Contar frecuencia de palabras (ignorando palabras comunes)
       const commonWords = [
         "el",
@@ -173,16 +183,21 @@ export const parseWhatsAppChat = (
     .sort((a, b) => b.value - a.value)
     .slice(0, 100); // Limitar a las 100 palabras más frecuentes
 
+  const emojiFrequencyArray = Array.from(emojiFrequency.entries())
+    .map(([text, value]) => ({ text, value }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 100);
   return {
     participants: Array.from(participantsMap.values()).sort(
       (a, b) => b.messageCount - a.messageCount
     ),
     timeActivity: hourCounts,
     wordFrequency: wordFrequencyArray,
+    emojiFrequency: emojiFrequencyArray,
     totalMessages,
     dateRange: { start: startDate, end: endDate },
     mostActiveDay,
-    groupName, // Añadir el nombre del grupo a los datos
+    groupName,
   };
 };
 

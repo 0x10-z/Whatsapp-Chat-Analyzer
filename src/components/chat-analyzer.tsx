@@ -30,10 +30,16 @@ export type WordFrequency = {
   value: number;
 };
 
+export type EmojiFrequency = {
+  text: string;
+  value: number;
+};
+
 export type ChatData = {
   participants: Participant[];
   timeActivity: TimeActivity[];
   wordFrequency: WordFrequency[];
+  emojiFrequency: EmojiFrequency[];
   totalMessages: number;
   dateRange: { start: string; end: string };
   mostActiveDay: { date: string; count: number };
@@ -135,7 +141,7 @@ export default function ChatAnalyzer() {
                 setGroupName("");
                 setChatText("");
               }}
-              className="bg-white dark:bg-gray-800">
+              className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-green-100 dark:hover:bg-green-800 hover:text-green-900 dark:hover:text-green-100 transition-colors shadow-sm hover:shadow-md">
               {t.analyzeAnother}
             </Button>
           </div>

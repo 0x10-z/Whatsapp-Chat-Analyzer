@@ -8,6 +8,7 @@ import TopParticipants from "@/components/top-participants";
 import FunFacts from "@/components/fun-facts";
 import type { ChatData } from "./chat-analyzer";
 import { useTranslationContext } from "@/contexts/translation-context";
+import EmojiCloudChart from "./emoji-cloud-chart";
 
 interface ChatTabsProps {
   chatData: ChatData;
@@ -89,6 +90,7 @@ export default function ChatTabs({
           <CardContent className="p-6">
             <h2 className="text-2xl font-bold mb-4">{t.titles.wordCloud}</h2>
             <WordCloudChart wordFrequency={chatData.wordFrequency} />
+            <EmojiCloudChart emojiFrequency={chatData.emojiFrequency} />
           </CardContent>
         </Card>
       </TabsContent>

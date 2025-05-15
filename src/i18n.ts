@@ -93,6 +93,10 @@ export const translations = {
       privacyNotice:
         "Tus datos no se almacenan en ningún servidor. Todo el análisis se realiza en tu navegador.",
     },
+    activity: {
+      mostActive: "La hora más activa es a las {hour}:00.",
+      leastActive: "La hora menos activa es a las {hour}:00.",
+    },
   },
   en: {
     title: "WhatsApp Chat Analyzer",
@@ -182,6 +186,10 @@ export const translations = {
       useExample: "Use example data",
       privacyNotice:
         "Your data is not stored on any server. All analysis is done in your browser.",
+    },
+    activity: {
+      mostActive: "The most active hour is at {hour}:00.",
+      leastActive: "The least active hour is at {hour}:00.",
     },
   },
   eu: {
@@ -275,6 +283,10 @@ export const translations = {
       privacyNotice:
         "Zure datuak ez dira zerbitzarietan gordetzen. Azterketa guztia zure nabigatzailean egiten da.",
     },
+    activity: {
+      mostActive: "Ordu aktiboena {hour}:00etan da.",
+      leastActive: "Ordu gutxieneko jarduera {hour}:00etan da.",
+    },
   },
   ca: {
     title: "Analitzador de xats de WhatsApp",
@@ -367,6 +379,10 @@ export const translations = {
       useExample: "Utilitza dades d'exemple",
       privacyNotice:
         "Les teves dades no s'emmagatzemen en cap servidor. L'anàlisi es fa completament al teu navegador.",
+    },
+    activity: {
+      mostActive: "L'hora més activa és a les {hour}:00.",
+      leastActive: "L'hora menys activa és a les {hour}:00.",
     },
   },
 };

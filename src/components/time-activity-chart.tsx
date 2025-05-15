@@ -12,6 +12,11 @@ export default function TimeActivityChart({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { t } = useTranslationContext();
 
+  const mostActive = timeActivity.reduce((a, b) => (a.count > b.count ? a : b));
+  const leastActive = timeActivity.reduce((a, b) =>
+    a.count < b.count ? a : b
+  );
+
   useEffect(() => {
     if (!canvasRef.current || timeActivity.length === 0) return;
 
@@ -31,7 +36,6 @@ export default function TimeActivityChart({
     const height = rect.height - margin.top - margin.bottom;
     const barWidth = width / timeActivity.length;
 
-    // Ejes
     ctx.beginPath();
     ctx.moveTo(margin.left, rect.height - margin.bottom);
     ctx.lineTo(rect.width - margin.right, rect.height - margin.bottom);
@@ -43,15 +47,12 @@ export default function TimeActivityChart({
     ctx.lineTo(margin.left, rect.height - margin.bottom);
     ctx.stroke();
 
-    // Texto base
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "#1f2937";
     ctx.font = "12px Arial";
 
-    // Responsividad: cada cuántas horas mostrar
     const showEvery = rect.width < 400 ? 4 : 2;
-
     for (let i = 0; i < timeActivity.length; i += showEvery) {
       const x = margin.left + i * barWidth + barWidth / 2;
       ctx.fillText(
@@ -61,7 +62,6 @@ export default function TimeActivityChart({
       );
     }
 
-    // Etiquetas Y y líneas guía
     ctx.textAlign = "right";
     ctx.textBaseline = "middle";
     const yStep = maxCount / 5;
@@ -80,7 +80,6 @@ export default function TimeActivityChart({
       ctx.setLineDash([]);
     }
 
-    // Barras
     timeActivity.forEach((item, index) => {
       const x = margin.left + index * barWidth;
       const barHeight = (item.count / maxCount) * height;
@@ -106,17 +105,29 @@ export default function TimeActivityChart({
       }
     });
 
-    // Título
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.font = "bold 16px Arial";
     ctx.fillStyle = "#3B82F6";
     ctx.fillText(t.activityChartTitle, rect.width / 2, margin.top / 2);
-  }, [timeActivity]);
+  }, [timeActivity, t]);
 
   return (
-    <div className="w-full h-[400px]">
-      <canvas ref={canvasRef} className="w-full h-full" />
+    <div className="w-full">
+      <div className="h-[400px]">
+        <canvas ref={canvasRef} className="w-full h-full" />
+      </div>
+      <div className="mt-6 text-center space-y-2">
+        <p className="text-lg font-medium text-green-700 dark:text-green-300 italic">
+          {t.activity.mostActive.replace("{hour}", mostActive.hour.toString())}
+        </p>
+        <p className="text-lg font-medium text-gray-600 dark:text-gray-400 italic">
+          {t.activity.leastActive.replace(
+            "{hour}",
+            leastActive.hour.toString()
+          )}
+        </p>
+      </div>
     </div>
   );
 }
