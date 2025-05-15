@@ -23,7 +23,7 @@ export default function TopParticipants({
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">{t.topParticipants.title}</h3>
 
-      {sortedParticipants.slice(0, 5).map((participant, index) => (
+      {sortedParticipants.slice(0).map((participant, index) => (
         <div key={index} className="space-y-2">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-2">

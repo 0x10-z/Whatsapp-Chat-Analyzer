@@ -5,121 +5,132 @@ import type {
   WordFrequency,
 } from "./components/chat-analyzer";
 
-// Modificar la función generateFakeData para incluir el nombre del grupo
 export const generateFakeData = (): ChatData => {
-  // Crear participantes ficticios
   const participants: Participant[] = [
     {
-      name: "María García",
-      messageCount: 1245,
-      wordCount: 8976,
-      characterCount: 42560,
-      mediaCount: 87,
+      name: "Elon Musk",
+      messageCount: 1342,
+      wordCount: 10345,
+      characterCount: 50500,
+      mediaCount: 152,
       color: "#FF6B6B",
     },
     {
-      name: "Juan Pérez",
-      messageCount: 982,
-      wordCount: 5621,
-      characterCount: 28450,
-      mediaCount: 45,
+      name: "Pedro Sánchez",
+      messageCount: 1095,
+      wordCount: 7543,
+      characterCount: 38500,
+      mediaCount: 72,
       color: "#4ECDC4",
     },
     {
-      name: "Ana Rodríguez",
-      messageCount: 754,
-      wordCount: 6234,
-      characterCount: 32180,
-      mediaCount: 62,
+      name: "Donald Trump",
+      messageCount: 980,
+      wordCount: 6999,
+      characterCount: 35200,
+      mediaCount: 88,
       color: "#FFD166",
     },
     {
-      name: "Carlos López",
-      messageCount: 523,
-      wordCount: 3245,
-      characterCount: 18760,
-      mediaCount: 28,
+      name: "Emmanuel Macron",
+      messageCount: 850,
+      wordCount: 6230,
+      characterCount: 29750,
+      mediaCount: 61,
       color: "#06D6A0",
     },
     {
-      name: "Laura Martínez",
-      messageCount: 412,
-      wordCount: 2876,
-      characterCount: 15430,
-      mediaCount: 19,
-      color: "#118AB2",
+      name: "Javier Milei",
+      messageCount: 1200,
+      wordCount: 8340,
+      characterCount: 41230,
+      mediaCount: 77,
+      color: "#D97706",
+    },
+    {
+      name: "Gabriel Rufián",
+      messageCount: 900,
+      wordCount: 6890,
+      characterCount: 33210,
+      mediaCount: 53,
+      color: "#10B981",
+    },
+    {
+      name: "José Elías",
+      messageCount: 770,
+      wordCount: 5890,
+      characterCount: 29840,
+      mediaCount: 48,
+      color: "#6366F1",
     },
   ];
 
-  // Crear actividad por hora
   const timeActivity: TimeActivity[] = Array(24)
     .fill(0)
     .map((_, hour) => {
-      // Simular un patrón realista con más actividad durante la tarde/noche
       let count = 0;
       if (hour < 7) {
-        count = Math.floor(Math.random() * 50); // Poca actividad en la madrugada
+        count = Math.floor(Math.random() * 40);
       } else if (hour < 12) {
-        count = 100 + Math.floor(Math.random() * 150); // Actividad media en la mañana
+        count = 100 + Math.floor(Math.random() * 120);
       } else if (hour < 16) {
-        count = 150 + Math.floor(Math.random() * 100); // Actividad media-alta al mediodía
+        count = 150 + Math.floor(Math.random() * 100);
       } else if (hour < 22) {
-        count = 200 + Math.floor(Math.random() * 250); // Alta actividad en la tarde/noche
+        count = 200 + Math.floor(Math.random() * 180);
       } else {
-        count = 100 + Math.floor(Math.random() * 150); // Actividad media-baja en la noche
+        count = 80 + Math.floor(Math.random() * 100);
       }
       return { hour, count };
     });
 
-  // Palabras frecuentes ficticias
-  const commonSpanishWords = [
-    "hola",
-    "gracias",
-    "bien",
-    "jaja",
-    "vale",
-    "bueno",
-    "claro",
-    "genial",
-    "mañana",
-    "ahora",
-    "siempre",
-    "nunca",
-    "quizás",
-    "también",
-    "nada",
-    "mucho",
-    "poco",
-    "tarde",
-    "temprano",
-    "casa",
-    "trabajo",
-    "fiesta",
-    "comida",
-    "tiempo",
-    "día",
-    "noche",
-    "semana",
-    "mes",
-    "año",
-    "amigo",
-    "familia",
-    "vida",
-    "amor",
-    "feliz",
-    "triste",
-    "cansado",
-    "divertido",
+  const frikiWords = [
+    "spaceX",
+    "cohete",
+    "mars",
+    "subvención",
+    "libertad",
+    "democracia",
+    "nuclear",
+    "revolución",
+    "memes",
+    "threads",
+    "AI",
+    "china",
+    "dinero",
+    "república",
+    "oligarquía",
+    "macronazo",
+    "elonada",
+    "FakeNews",
+    "startup",
+    "eurovisión",
+    "teleprompter",
+    "francia",
+    "mileitor",
+    "bitcoin",
+    "marte",
+    "liberté",
+    "propaganda",
+    "deepfake",
+    "Tesla",
+    "libertarado",
+    "casta",
+    "congreso",
+    "kilovatio",
+    "regulación",
+    "comunismo",
+    "asamblea",
+    "precio",
+    "multinacional",
   ];
 
-  const wordFrequency: WordFrequency[] = commonSpanishWords
+  const wordFrequency: WordFrequency[] = frikiWords
     .map((word) => ({
       text: word,
-      value: 20 + Math.floor(Math.random() * 180), // Entre 20 y 200 ocurrencias
+      value: 30 + Math.floor(Math.random() * 150),
     }))
     .sort((a, b) => b.value - a.value);
 
-  // Calcular total de mensajes
   const totalMessages = participants.reduce(
     (sum, p) => sum + p.messageCount,
     0
@@ -130,20 +141,20 @@ export const generateFakeData = (): ChatData => {
     timeActivity,
     wordFrequency,
     emojiFrequency: [
-      { text: "😂", value: 120 },
-      { text: "❤️", value: 95 },
-      { text: "👍", value: 80 },
-      { text: "😢", value: 60 },
-      { text: "🔥", value: 50 },
-      { text: "🎉", value: 45 },
-      { text: "😎", value: 40 },
-      { text: "😍", value: 35 },
-      { text: "🙌", value: 30 },
-      { text: "💔", value: 25 },
+      { text: "🚀", value: 130 },
+      { text: "🇦🇷", value: 110 },
+      { text: "🇪🇸", value: 95 },
+      { text: "🇺🇸", value: 80 },
+      { text: "🇫🇷", value: 65 },
+      { text: "🔥", value: 60 },
+      { text: "🤣", value: 55 },
+      { text: "💶", value: 40 },
+      { text: "🤯", value: 35 },
+      { text: "📉", value: 30 },
     ],
     totalMessages,
-    dateRange: { start: "01/01/2023", end: "31/12/2023" },
-    mostActiveDay: { date: "15/06/2023", count: 245 },
-    groupName: "Amigos del instituto", // Nombre del grupo para los datos de ejemplo
+    dateRange: { start: "01/01/2024", end: "31/12/2024" },
+    mostActiveDay: { date: "06/06/2024", count: 312 },
+    groupName: "Club BilderChat™",
   };
 };
