@@ -1,19 +1,12 @@
-import { useState } from "react";
 import ChatAnalyzer from "@/components/chat-analyzer";
-import { useTranslation } from "@/hooks/use-translation";
-
-type LanguageCode = "es" | "en" | "eu" | "ca";
-
-const LANGUAGES: { code: LanguageCode; label: string; flag: string }[] = [
-  { code: "es", label: "Español", flag: "🇪🇸" },
-  { code: "en", label: "English", flag: "🇬🇧" },
-  { code: "eu", label: "Euskera", flag: "🇪🇺" },
-  { code: "ca", label: "Català", flag: "🇦🇩" },
-];
+import {
+  LANGUAGES,
+  useTranslationContext,
+  type LanguageCode,
+} from "@/contexts/translation-context";
 
 export default function App() {
-  const [language, setLanguage] = useState<LanguageCode>("es");
-  const t = useTranslation(language);
+  const { t, language, setLanguage } = useTranslationContext();
 
   return (
     <main className="relative min-h-screen bg-gradient-to-br from-green-50 to-teal-100 dark:from-green-950 dark:to-teal-900 px-4 py-10 md:px-8 overflow-hidden">
@@ -31,7 +24,7 @@ export default function App() {
       />
 
       {/* 🔧 Controles */}
-      <div className="absolute top-4 right-4 flex items-center gap-3 z-50">
+      <div className="absolute top-1 right-4 flex items-center gap-3 z-50">
         <div className="relative inline-block text-left">
           <div className="group">
             <select

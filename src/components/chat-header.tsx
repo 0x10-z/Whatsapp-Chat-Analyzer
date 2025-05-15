@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { MessageSquare, Award, Clock } from "lucide-react";
 import type { ChatData } from "@/components/chat-analyzer";
+import { useTranslationContext } from "@/contexts/translation-context";
 
 interface GroupAnalysisHeaderProps {
   chatData: ChatData;
@@ -13,13 +14,15 @@ export default function GroupAnalysisHeader({
     current.count > max.count ? current : max
   ).hour;
 
+  const { t } = useTranslationContext();
+
   return (
     <Card className="bg-white dark:bg-gray-800 shadow-lg">
       <CardContent className="p-6">
         {chatData.groupName && (
           <div className="mb-4 text-center">
             <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
-              Análisis del grupo:{" "}
+              {t.groupAnalysis}:{" "}
               <span className="text-green-600 dark:text-green-400">
                 {chatData.groupName}
               </span>
@@ -33,7 +36,7 @@ export default function GroupAnalysisHeader({
             </div>
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Total de mensajes
+                {t.totalMessages}
               </p>
               <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                 {chatData.totalMessages.toLocaleString()}
@@ -47,10 +50,10 @@ export default function GroupAnalysisHeader({
             </div>
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Participante más activo
+                {t.mostActiveParticipant}
               </p>
               <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-                {chatData.participants[0]?.name || "N/A"}
+                {chatData.participants[0]?.name || t.na}
               </p>
             </div>
           </div>
@@ -61,7 +64,7 @@ export default function GroupAnalysisHeader({
             </div>
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Hora más activa
+                {t.mostActiveHour}
               </p>
               <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">
                 {mostActiveHour}:00

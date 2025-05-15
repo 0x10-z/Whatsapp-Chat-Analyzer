@@ -6,9 +6,10 @@ import { Progress } from "@/components/ui/progress";
 import ChatTabs from "@/components/chat-tabs";
 import GroupAnalysisHeader from "@/components/chat-header";
 import UploadSection from "@/components/upload-secton";
-import GroupSelector from "@/components/grouup-selector";
+import GroupSelector from "@/components/group-selector";
 import { generateFakeData } from "@/fakeData";
 import { detectParticipants, parseWhatsAppChat } from "@/utils";
+import { useTranslationContext } from "@/contexts/translation-context";
 
 export type Participant = {
   name: string;
@@ -29,7 +30,6 @@ export type WordFrequency = {
   value: number;
 };
 
-// Actualizar el tipo ChatData para incluir el nombre del grupo
 export type ChatData = {
   participants: Participant[];
   timeActivity: TimeActivity[];
@@ -41,7 +41,6 @@ export type ChatData = {
 };
 
 export default function ChatAnalyzer() {
-  // Añadir un nuevo estado para el nombre del grupo y un estado para el paso de selección
   const [groupName, setGroupName] = useState<string>("");
   const [isSelectingGroup, setIsSelectingGroup] = useState<boolean>(false);
   const [detectedParticipants, setDetectedParticipants] = useState<string[]>(
@@ -50,49 +49,39 @@ export default function ChatAnalyzer() {
   const [chatData, setChatData] = useState<ChatData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("participants");
-  // Guardar el texto del chat para usarlo después de seleccionar el grupo
   const [chatText, setChatText] = useState<string>("");
 
-  // Modificar la función handleFileUpload para detectar participantes primero
+  const { t } = useTranslationContext();
+
   const handleFileUpload = async (file: File) => {
     setIsLoading(true);
-
     try {
       const text = await file.text();
-      // Guardar el texto del chat para usarlo después
       setChatText(text);
-      // Detectar participantes primero
       const participants = detectParticipants(text);
       setDetectedParticipants(participants);
       setIsSelectingGroup(true);
     } catch (error) {
       console.error("Error parsing chat:", error);
-      alert(
-        "Error al analizar el chat. Por favor, asegúrate de que es un archivo de chat de WhatsApp válido."
-      );
+      alert(t.alertInvalid);
       setIsLoading(false);
     }
   };
 
-  // Añadir función para procesar el chat después de seleccionar el grupo
   const processChat = () => {
     setIsLoading(true);
     try {
-      // Usar el texto del chat guardado anteriormente
       const parsedData = parseWhatsAppChat(chatText, groupName);
       setChatData(parsedData);
     } catch (error) {
       console.error("Error parsing chat:", error);
-      alert(
-        "Error al analizar el chat. Por favor, asegúrate de que es un archivo de chat de WhatsApp válido."
-      );
+      alert(t.alertInvalid);
     } finally {
       setIsLoading(false);
       setIsSelectingGroup(false);
     }
   };
 
-  // Modificar el return para incluir la selección de grupo y mostrar el nombre del grupo
   return (
     <div className="space-y-6">
       {!chatData ? (
@@ -109,7 +98,7 @@ export default function ChatAnalyzer() {
               if (groupName) {
                 processChat();
               } else {
-                alert("Por favor, selecciona el nombre del grupo");
+                alert(t.alertNoGroup);
               }
             }}
           />
@@ -125,20 +114,18 @@ export default function ChatAnalyzer() {
       ) : isLoading ? (
         <Card className="bg-white dark:bg-gray-800 shadow-lg p-8">
           <div className="text-center space-y-4">
-            <h2 className="text-xl font-semibold">Analizando tu chat...</h2>
+            <h2 className="text-xl font-semibold">{t.analyzing}</h2>
             <Progress value={45} className="w-full" />
           </div>
         </Card>
       ) : (
         <>
           <GroupAnalysisHeader chatData={chatData} />
-
           <ChatTabs
             chatData={chatData}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
           />
-
           <div className="text-center mt-8">
             <Button
               variant="outline"
@@ -149,7 +136,7 @@ export default function ChatAnalyzer() {
                 setChatText("");
               }}
               className="bg-white dark:bg-gray-800">
-              Analizar otro chat
+              {t.analyzeAnother}
             </Button>
           </div>
         </>

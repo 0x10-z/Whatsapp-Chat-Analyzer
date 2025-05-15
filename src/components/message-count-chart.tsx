@@ -11,99 +11,60 @@ export default function MessageCountChart({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!canvasRef.current || participants.length === 0) return;
-
     const canvas = canvasRef.current;
+    if (!canvas || participants.length === 0) return;
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Configurar el tamaño del canvas
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    const size = canvas.parentElement?.clientWidth || 300;
+    const sizePx = size * dpr;
+
+    canvas.width = sizePx;
+    canvas.height = sizePx;
     ctx.scale(dpr, dpr);
 
-    // Configurar el estilo
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    const centerX = size / 2;
+    const centerY = size / 2;
+    const radius = size * 0.3;
 
-    // Calcular el total de mensajes
-    const totalMessages = participants.reduce(
-      (sum, p) => sum + p.messageCount,
-      0
-    );
+    ctx.clearRect(0, 0, size, size);
 
-    // Dibujar el gráfico de pastel
+    const total = participants.reduce((sum, p) => sum + p.messageCount, 0);
     let startAngle = 0;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const radius = Math.min(centerX, centerY) * 0.8;
 
-    participants.forEach((participant, _) => {
-      const portion = participant.messageCount / totalMessages;
+    participants.forEach((p) => {
+      const portion = p.messageCount / total;
       const endAngle = startAngle + portion * 2 * Math.PI;
 
-      // Dibujar el sector
       ctx.beginPath();
       ctx.moveTo(centerX, centerY);
       ctx.arc(centerX, centerY, radius, startAngle, endAngle);
       ctx.closePath();
-      ctx.fillStyle = participant.color;
+      ctx.fillStyle = p.color;
       ctx.fill();
 
-      // Calcular la posición para la etiqueta
-      if (portion > 0.05) {
-        // Solo mostrar etiquetas para porciones grandes
-        const midAngle = startAngle + (endAngle - startAngle) / 2;
-        const labelRadius = radius * 0.7;
-        const labelX = centerX + Math.cos(midAngle) * labelRadius;
-        const labelY = centerY + Math.sin(midAngle) * labelRadius;
-
-        // Dibujar la etiqueta
-        ctx.fillStyle = "#FFFFFF";
-        ctx.font = "bold 14px Arial";
-        ctx.fillText(`${Math.round(portion * 100)}%`, labelX, labelY);
+      // Etiquetas si son visibles
+      if (portion > 0.08) {
+        const angle = startAngle + (endAngle - startAngle) / 2;
+        const x = centerX + Math.cos(angle) * radius * 0.6;
+        const y = centerY + Math.sin(angle) * radius * 0.6;
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 12px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText(`${Math.round(portion * 100)}%`, x, y);
       }
 
       startAngle = endAngle;
     });
-
-    // Dibujar la leyenda
-    const legendX = 10;
-    let legendY = 20;
-    const legendSpacing = 25;
-    const legendSize = 15;
-
-    participants.slice(0, 5).forEach((participant) => {
-      // Dibujar el cuadrado de color
-      ctx.fillStyle = participant.color;
-      ctx.fillRect(legendX, legendY - legendSize / 2, legendSize, legendSize);
-
-      // Dibujar el nombre
-      ctx.fillStyle =
-        getComputedStyle(document.documentElement)
-          .getPropertyValue("--foreground")
-          .trim() || "#000000";
-      ctx.font = "14px Arial";
-      ctx.textAlign = "left";
-      ctx.fillText(
-        `${
-          participant.name.length > 15
-            ? participant.name.substring(0, 15) + "..."
-            : participant.name
-        } (${participant.messageCount})`,
-        legendX + legendSize + 5,
-        legendY
-      );
-
-      legendY += legendSpacing;
-    });
   }, [participants]);
 
   return (
-    <div className="h-[300px] w-full">
-      <canvas ref={canvasRef} className="w-full h-full" />
+    <div className="flex flex-col items-center gap-4 w-full">
+      <div className="w-full max-w-[500px]">
+        <canvas ref={canvasRef} className="w-full h-auto" />
+      </div>
     </div>
   );
 }

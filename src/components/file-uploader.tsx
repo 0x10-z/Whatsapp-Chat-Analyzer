@@ -2,20 +2,16 @@ import type React from "react";
 import { useState, useRef } from "react";
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTranslation } from "@/hooks/use-translation";
+import { useTranslationContext } from "@/contexts/translation-context";
 
 interface FileUploaderProps {
   onFileUpload: (file: File) => void;
-  language?: "es" | "en" | "eu" | "ca";
 }
 
-export default function FileUploader({
-  onFileUpload,
-  language = "es",
-}: FileUploaderProps) {
+export default function FileUploader({ onFileUpload }: FileUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const t = useTranslation(language);
+  const { t } = useTranslationContext();
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
