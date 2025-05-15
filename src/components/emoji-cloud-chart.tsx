@@ -77,7 +77,7 @@ export default function EmojiCloudChart({
       };
     };
 
-    topEmojis.forEach((emoji, i) => {
+    topEmojis.forEach((emoji) => {
       const fontSize = isMobile
         ? 18 + ((emoji.value - minValue) / (maxValue - minValue)) * 20
         : 24 + ((emoji.value - minValue) / (maxValue - minValue)) * 40;
