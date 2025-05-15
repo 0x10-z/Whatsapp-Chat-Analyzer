@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useTranslationContext } from "@/contexts/translation-context";
 
 interface GroupSelectorProps {
   groupName: string;
@@ -16,16 +17,17 @@ export default function GroupSelector({
   onCancel,
   onContinue,
 }: GroupSelectorProps) {
+  const { t } = useTranslationContext();
+
   return (
     <Card className="bg-white dark:bg-gray-800 shadow-lg">
       <CardContent className="p-6">
         <div className="text-center space-y-4">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            Selecciona el nombre del grupo
+            {t.groupSelector.title}
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-            Elige el nombre del grupo para excluirlo de las estadísticas de
-            participantes
+            {t.groupSelector.description}
           </p>
 
           <div className="mt-6 max-h-60 overflow-y-auto">
@@ -50,13 +52,13 @@ export default function GroupSelector({
               variant="outline"
               onClick={onCancel}
               className="border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 transition-colors">
-              Cancelar
+              {t.groupSelector.cancel}
             </Button>
             <Button
               onClick={onContinue}
               disabled={!groupName}
               className="bg-green-600 hover:bg-green-700 text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-              Continuar
+              {t.groupSelector.continue}
             </Button>
           </div>
         </div>

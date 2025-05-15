@@ -2,6 +2,7 @@ import { Upload } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import FileUploader from "@/components/file-uploader";
+import { useTranslationContext } from "@/contexts/translation-context";
 import type { ChatData } from "@/components/chat-analyzer";
 
 interface UploadSectionProps {
@@ -19,6 +20,8 @@ export default function UploadSection({
   setIsLoading,
   setGroupName,
 }: UploadSectionProps) {
+  const { t } = useTranslationContext();
+
   return (
     <Card className="bg-white dark:bg-gray-800 shadow-lg">
       <CardContent className="p-6">
@@ -27,11 +30,10 @@ export default function UploadSection({
             <Upload className="h-10 w-10 text-green-600 dark:text-green-400" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            Sube tu chat de WhatsApp
+            {t.upload.title}
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-            Exporta un chat desde WhatsApp y súbelo aquí para descubrir
-            estadísticas interesantes
+            {t.upload.description}
           </p>
 
           <div className="mt-6">
@@ -45,7 +47,7 @@ export default function UploadSection({
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                  o
+                  {t.upload.or}
                 </span>
               </div>
             </div>
@@ -60,15 +62,12 @@ export default function UploadSection({
               }}
               variant="outline"
               className="mt-4 w-full transition-all duration-200 ease-in-out border-gray-300 dark:border-gray-600 hover:bg-green-100 dark:hover:bg-green-800 hover:text-green-900 dark:hover:text-green-100 hover:shadow-md">
-              Usar datos de ejemplo
+              {t.upload.useExample}
             </Button>
           </div>
 
           <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-            <p>
-              Tus datos no se almacenan en ningún servidor. Todo el análisis se
-              realiza en tu navegador.
-            </p>
+            <p>{t.upload.privacyNotice}</p>
           </div>
         </div>
       </CardContent>

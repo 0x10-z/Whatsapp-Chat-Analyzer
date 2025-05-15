@@ -1,9 +1,6 @@
 import ChatAnalyzer from "@/components/chat-analyzer";
-import {
-  LANGUAGES,
-  useTranslationContext,
-  type LanguageCode,
-} from "@/contexts/translation-context";
+import { useTranslationContext } from "@/contexts/translation-context";
+import LanguageDropdown from "./components/language-dropdown";
 
 export default function App() {
   const { t, language, setLanguage } = useTranslationContext();
@@ -25,23 +22,7 @@ export default function App() {
 
       {/* 🔧 Controles */}
       <div className="absolute top-1 right-4 flex items-center gap-3 z-50">
-        <div className="relative inline-block text-left">
-          <div className="group">
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as LanguageCode)}
-              className="appearance-none w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 pr-10 text-sm shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500 hover:shadow-lg cursor-pointer">
-              {LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.flag} {lang.label}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 transition-transform duration-150 group-hover:rotate-180">
-              ▼
-            </div>
-          </div>
-        </div>
+        <LanguageDropdown language={language} setLanguage={setLanguage} />
       </div>
 
       {/* 📄 Contenido */}

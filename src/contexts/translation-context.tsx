@@ -6,10 +6,10 @@ export type LanguageCode = "es" | "en" | "eu" | "ca";
 
 export const LANGUAGES: { code: LanguageCode; label: string; flag: string }[] =
   [
-    { code: "es", label: "Español", flag: "🇪🇸" },
-    { code: "en", label: "English", flag: "🇬🇧" },
-    { code: "eu", label: "Euskera", flag: "🇪🇺" },
-    { code: "ca", label: "Català", flag: "🇦🇩" },
+    { code: "es", label: "Español", flag: "es" },
+    { code: "en", label: "English", flag: "gb" },
+    { code: "eu", label: "Euskera", flag: "es-pv" },
+    { code: "ca", label: "Català", flag: "es-ct" },
   ];
 
 // 2. Extrae el tipo exacto de las traducciones

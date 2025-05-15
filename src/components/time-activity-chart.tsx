@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import type { TimeActivity } from "./chat-analyzer";
+import { useTranslationContext } from "@/contexts/translation-context";
 
 interface TimeActivityChartProps {
   timeActivity: TimeActivity[];
@@ -9,6 +10,7 @@ export default function TimeActivityChart({
   timeActivity,
 }: TimeActivityChartProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { t } = useTranslationContext();
 
   useEffect(() => {
     if (!canvasRef.current || timeActivity.length === 0) return;
@@ -109,7 +111,7 @@ export default function TimeActivityChart({
     ctx.textBaseline = "top";
     ctx.font = "bold 16px Arial";
     ctx.fillStyle = "#3B82F6";
-    ctx.fillText("Actividad por hora del día", rect.width / 2, margin.top / 2);
+    ctx.fillText(t.activityChartTitle, rect.width / 2, margin.top / 2);
   }, [timeActivity]);
 
   return (

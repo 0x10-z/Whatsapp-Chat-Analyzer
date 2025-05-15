@@ -1,4 +1,5 @@
 import type { Participant } from "./chat-analyzer";
+import { useTranslationContext } from "@/contexts/translation-context";
 
 interface TopParticipantsProps {
   participants: Participant[];
@@ -7,12 +8,12 @@ interface TopParticipantsProps {
 export default function TopParticipants({
   participants,
 }: TopParticipantsProps) {
-  // Ordenar participantes por cantidad de mensajes
+  const { t } = useTranslationContext();
+
   const sortedParticipants = [...participants].sort(
     (a, b) => b.messageCount - a.messageCount
   );
 
-  // Calcular el total de mensajes
   const totalMessages = participants.reduce(
     (sum, p) => sum + p.messageCount,
     0
@@ -20,7 +21,7 @@ export default function TopParticipants({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Top Participantes</h3>
+      <h3 className="text-lg font-semibold">{t.topParticipants.title}</h3>
 
       {sortedParticipants.slice(0, 5).map((participant, index) => (
         <div key={index} className="space-y-2">
@@ -33,7 +34,7 @@ export default function TopParticipants({
               <span className="font-medium">{participant.name}</span>
             </div>
             <span className="text-sm text-gray-500 dark:text-gray-400">
-              {participant.messageCount} mensajes
+              {participant.messageCount} {t.topParticipants.messages}
             </span>
           </div>
 
@@ -49,15 +50,15 @@ export default function TopParticipants({
 
           <div className="grid grid-cols-3 gap-2 text-xs text-gray-500 dark:text-gray-400">
             <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded">
-              <p className="font-medium">Palabras</p>
+              <p className="font-medium">{t.topParticipants.words}</p>
               <p>{participant.wordCount}</p>
             </div>
             <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded">
-              <p className="font-medium">Caracteres</p>
+              <p className="font-medium">{t.topParticipants.characters}</p>
               <p>{participant.characterCount}</p>
             </div>
             <div className="bg-gray-50 dark:bg-gray-800 p-2 rounded">
-              <p className="font-medium">Multimedia</p>
+              <p className="font-medium">{t.topParticipants.media}</p>
               <p>{participant.mediaCount}</p>
             </div>
           </div>
